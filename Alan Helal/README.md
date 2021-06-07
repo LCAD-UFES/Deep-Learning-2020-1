@@ -185,6 +185,7 @@ for images, labels in train_ds.take(1):
     plt.axis("off")
 ```
 If you get an output similar to this, it is safe to continue::
+
 ![image](https://user-images.githubusercontent.com/19311371/121085569-6c4fa180-c7b8-11eb-8d3b-5d1c59daaf56.png)
 
 #### Debug Step 3
