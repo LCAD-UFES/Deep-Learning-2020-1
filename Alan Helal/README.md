@@ -189,7 +189,7 @@ If you get an output similar to this, it is safe to continue::
 ![image](https://user-images.githubusercontent.com/19311371/121085569-6c4fa180-c7b8-11eb-8d3b-5d1c59daaf56.png)
 
 #### Debug Step 3
-The last Debug Step to check if the training dataset is correct is to print the tensor shape. Accordingly to our previously configuration, the tensor shpae should be (32, 224, 224, 3) where 32 represents the batch size, 224 the image height and width and 3 refers to the RGB channels of the image. Since we are also printing the label batch shape we should get (32,) since we have 32 labels (one for eache image in the batch).
+The last Debug Step to check if the training dataset is correct is to print the tensor shape. Accordingly to our previously configuration, the tensor shpae should be (32, 224, 224, 3) where 32 represents the batch size, 224 the image height and width and 3 refers to the RGB channels of the image. We are also printing the label batch shape we should get (32,) since we have 32 labels (one for each image in the batch).
 
 The code used is:
 ```python
