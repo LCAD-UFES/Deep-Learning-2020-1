@@ -4,7 +4,7 @@
 <p align="center">🚀 Step by step of how to use my project</p>
 
 This project aims to solve a real-life problem. Trap cameras are palced around farms capturing images of local wildlife. They are activated when they detect movement, however they are often activated due to wind, tree movement or even falling fruit. The idea is to identify in the photos taken by trap cameras three types of animals: armadillo, deer and wild pig.
-For training and validation of the neural network a dataset with more than 5000 photos taken by trap cameras was used. raining requires computing power hardly found in personal computers in our homes. To solve this problem, Google Colab was used for training and validation.
+For training and validation of the neural network a dataset with more than 5000 photos taken by trap cameras was used. Training requires computing power hardly found in personal computers in our homes. To solve this problem, Google Colab was used for training and validation.
 
 Next, it will be explained how to use the created neural network to solve the classification problem. For your convenience, two models have been made available on Google Colab:
 * The untrained neural network. It will be necessary to download the entire dataset (3.81 GB) and train the network before using it.
