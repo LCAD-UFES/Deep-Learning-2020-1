@@ -11,7 +11,7 @@ Next, it will be explained how to use the created neural network to solve the cl
 * The neural network trained and ready to receive the photos you want to classify.
 
 For more technical information regarding the project, please read the article Use of Convolutional Neural Networks for Image Classification available on this GitHub.
-If you wish to execute the pre-trained neural network, please [click here.](#pretrained-neural-network)
+If you wish to execute the pre-trained neural network, please [click here.](#trained-neural-network)
 
 # Untrained Neural Network
 
@@ -603,4 +603,6 @@ If you wish to see how the neural network is classifying each image you can exec
 <img width="359" alt="Schermata 2021-06-08 alle 12 19 59" src="https://user-images.githubusercontent.com/19311371/121212589-e2551680-c853-11eb-85ef-c4deaea30961.png">
 
 
-# Pretrained Neural Network
+# Trained Neural Network
+
+Why train something already trained? For your convenience you can test the neural network without having to download almost 4 GB of data and spend time training it. Just [click here](https://colab.research.google.com/drive/1AZE2scb09Eixsfgydl-lnvbfuaTLb3uU?hl=en#scrollTo=pz30YZNqu4op) to open the Trained Neural Network.
