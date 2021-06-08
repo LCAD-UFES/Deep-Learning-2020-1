@@ -363,6 +363,7 @@ for images, _ in train_ds.take(1):
 ```
 
 You should see an output of 9 horizontaly rotated images:
+
 ![image](https://user-images.githubusercontent.com/19311371/121207189-77094580-c84f-11eb-8d26-3072b4555bac.png)
 
 #### Step 7
