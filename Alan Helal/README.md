@@ -694,7 +694,7 @@ from keras.models import load_model
 model = load_model('/content/CNNTreinadaVGG16.h5')
 ```
 
-#### Step 9
+#### Step 5
 
 Now we can use our test dataset to test the neural network. First we are going to use only the armadillo photos and see how many of them the neural network classify correctly.
 
