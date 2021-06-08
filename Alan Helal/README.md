@@ -11,7 +11,7 @@ Next, it will be explained how to use the created neural network to solve the cl
 * The neural network trained and ready to receive the photos you want to classify.
 
 For more technical information regarding the project, please read the article Use of Convolutional Neural Networks for Image Classification available on this GitHub.
-If you wish to execute the pre-trained neural network, please [click here.](#PretrainedNeuralNetwork)
+If you wish to execute the pre-trained neural network, please [click here.](#pretrained-neural-network)
 
 <h2>Untrained Neural Network</h2>
 
@@ -452,4 +452,4 @@ The output should be:
 
 ![image](https://user-images.githubusercontent.com/19311371/121209366-2bf03200-c851-11eb-92f6-c90e9866255a.png)
 
-<h2>Pretrained Neural Network</h2>(#PretrainedNeuralNetwork)
+#Pretrained Neural Network
