@@ -114,6 +114,7 @@ PIL.Image.open(str(tatu[400]))
 
 
 #### Step 3
+
 We need to define the loader parameters to use a the batch size of 32 images and the image height and width to 224 pixels (default size for VGG). Then we configure the training dataset to use 80% of the training images for training and 20% for validation. This would result in using 3640 images for training the neural network and 910 images for validating the training.
 
 The code used for the loader configuration is:
@@ -204,3 +205,249 @@ You should see the following output:
 (32, 224, 224, 3)
 (32,)
 ```
+
+#### Step 4
+
+We are dealing with a huge amount of data, we need to configure the dataset for performance. We'll be using a buffered prefetching to avoid I/O blocking when loading data. The cache() method keeps the images in memory after they're loaded off disk during the fisrt epoch of training. This will ensure the dataset does not become a bottleneck while training the model. Since the dataset is too large to fit into memory, this method is used to create a performant on-disk cache. The prefetch() method overlaps data preprocessing and model execution while training.
+
+The code used is:
+```python
+AUTOTUNE = tf.data.AUTOTUNE
+
+train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
+val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+```
+
+There is no output for this step.
+
+#### Step 5
+
+Now it is time to create our model using VGG16. Since we didnt standardize the data before, we need to add a normalization layer in the model to change the range of the RGB values from 0 to 255 to be standarzie values in the 0-1 range.
+
+The VGG model with the normalization layer is created by the code below:
+
+```python
+num_classes = 3 #Veado, Porco, Tatu
+
+model = Sequential([
+  layers.experimental.preprocessing.Rescaling(1./255, input_shape=(img_height, img_width, 3)),
+  #Primeiro bloco convolucional
+  layers.Conv2D(64, 3, padding='same', activation='relu'),
+  layers.Conv2D(64, 3, padding='same', activation='relu'),
+  layers.MaxPooling2D(),
+  
+  #Segundo bloco convolucional
+  layers.Conv2D(128, 3, padding='same', activation='relu'),
+  layers.Conv2D(128, 3, padding='same', activation='relu'),
+  layers.MaxPooling2D(),
+
+  #Terceiro bloco convolucional
+  layers.Conv2D(256, 3, padding='same', activation='relu'),
+  layers.Conv2D(256, 3, padding='same', activation='relu'),
+  layers.Conv2D(256, 3, padding='same', activation='relu'),
+  layers.MaxPooling2D(),
+
+  #Quarto bloco convolucional
+  layers.Conv2D(512, 3, padding='same', activation='relu'),
+  layers.Conv2D(512, 3, padding='same', activation='relu'),
+  layers.Conv2D(512, 3, padding='same', activation='relu'),
+  layers.MaxPooling2D(),
+
+  #Quinto bloco convolucional
+  layers.Conv2D(512, 3, padding='same', activation='relu'),
+  layers.Conv2D(512, 3, padding='same', activation='relu'),
+  layers.Conv2D(512, 3, padding='same', activation='relu'),
+  layers.MaxPooling2D(),
+
+  #Camadas Densas (Fully Connected)
+  layers.Flatten(),
+  layers.Dense(4096, activation='relu'),
+  layers.Dropout(0.5),
+  layers.Dense(4096, activation='relu'),
+  layers.Dense(num_classes, activation = 'softmax')
+])
+
+
+model.summary()
+```
+
+Since we are printing the model summary, you should see the following output:
+
+```bash
+Model: "sequential_2"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+rescaling_2 (Rescaling)      (None, 224, 224, 3)       0         
+_________________________________________________________________
+conv2d_13 (Conv2D)           (None, 224, 224, 64)      1792      
+_________________________________________________________________
+conv2d_14 (Conv2D)           (None, 224, 224, 64)      36928     
+_________________________________________________________________
+max_pooling2d_5 (MaxPooling2 (None, 112, 112, 64)      0         
+_________________________________________________________________
+conv2d_15 (Conv2D)           (None, 112, 112, 128)     73856     
+_________________________________________________________________
+conv2d_16 (Conv2D)           (None, 112, 112, 128)     147584    
+_________________________________________________________________
+max_pooling2d_6 (MaxPooling2 (None, 56, 56, 128)       0         
+_________________________________________________________________
+conv2d_17 (Conv2D)           (None, 56, 56, 256)       295168    
+_________________________________________________________________
+conv2d_18 (Conv2D)           (None, 56, 56, 256)       590080    
+_________________________________________________________________
+conv2d_19 (Conv2D)           (None, 56, 56, 256)       590080    
+_________________________________________________________________
+max_pooling2d_7 (MaxPooling2 (None, 28, 28, 256)       0         
+_________________________________________________________________
+conv2d_20 (Conv2D)           (None, 28, 28, 512)       1180160   
+_________________________________________________________________
+conv2d_21 (Conv2D)           (None, 28, 28, 512)       2359808   
+_________________________________________________________________
+conv2d_22 (Conv2D)           (None, 28, 28, 512)       2359808   
+_________________________________________________________________
+max_pooling2d_8 (MaxPooling2 (None, 14, 14, 512)       0         
+_________________________________________________________________
+conv2d_23 (Conv2D)           (None, 14, 14, 512)       2359808   
+_________________________________________________________________
+conv2d_24 (Conv2D)           (None, 14, 14, 512)       2359808   
+_________________________________________________________________
+conv2d_25 (Conv2D)           (None, 14, 14, 512)       2359808   
+_________________________________________________________________
+max_pooling2d_9 (MaxPooling2 (None, 7, 7, 512)         0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 25088)             0         
+_________________________________________________________________
+dense_3 (Dense)              (None, 4096)              102764544 
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 4096)              0         
+_________________________________________________________________
+dense_4 (Dense)              (None, 4096)              16781312  
+_________________________________________________________________
+dense_5 (Dense)              (None, 3)                 12291     
+=================================================================
+Total params: 134,272,835
+Trainable params: 134,272,835
+Non-trainable params: 0
+```
+
+#### Debug Step 4
+
+If you wish to see a SVG representation of the model just created, execute this debug step.
+
+#### Step 6
+
+Since the photos from the dataset were taken in the wild, the use of Data Augmentation would help the training because the dataset contains several photos of the same animal in different angles and positions.
+
+The code used for Data Augmentation is:
+
+```python
+data_augmentation = keras.Sequential(
+  [
+    layers.experimental.preprocessing.RandomFlip("horizontal", 
+                                                 input_shape=(img_height, 
+                                                              img_width,
+                                                              3)),
+    layers.experimental.preprocessing.RandomRotation(0.1),
+    layers.experimental.preprocessing.RandomZoom(0.1),
+  ]
+)
+
+plt.figure(figsize=(10, 10))
+for images, _ in train_ds.take(1):
+  for i in range(9):
+    augmented_images = data_augmentation(images)
+    ax = plt.subplot(3, 3, i + 1)
+    plt.imshow(augmented_images[0].numpy().astype("uint8"))
+    plt.axis("off")
+```
+
+You should see an output of 9 horizontaly rotated images:
+![image](https://user-images.githubusercontent.com/19311371/121207189-77094580-c84f-11eb-8d26-3072b4555bac.png)
+
+#### Step 7
+
+The last step beofre the traingin is to compile the model and select the optmizer, the loss function and the metrics. We are using Adam as optmizer, Sparse Categorical Cross Entropy as the loss function and our metric is accuracy. 
+
+The code is:
+
+```python
+model.compile(optimizer='adam',
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+              metrics=['accuracy'])
+```
+
+#### Step 8
+
+Now we have everything ready to train our neural network. Just run the code below to use 10 epochs of training.
+
+```python
+epochs=10
+history = model.fit(
+  train_ds,
+  validation_data=val_ds,
+  epochs=epochs
+)
+```
+
+The output should be something like this:
+
+```bash
+Epoch 1/10
+114/114 [==============================] - 165s 1s/step - loss: 6.8301 - accuracy: 0.5508 - val_loss: 0.7702 - val_accuracy: 0.6484
+Epoch 2/10
+114/114 [==============================] - 98s 859ms/step - loss: 0.6504 - accuracy: 0.7093 - val_loss: 0.6587 - val_accuracy: 0.7044
+Epoch 3/10
+114/114 [==============================] - 98s 860ms/step - loss: 0.5781 - accuracy: 0.7618 - val_loss: 0.6000 - val_accuracy: 0.7275
+Epoch 4/10
+114/114 [==============================] - 97s 851ms/step - loss: 0.5120 - accuracy: 0.7970 - val_loss: 0.5652 - val_accuracy: 0.7725
+Epoch 5/10
+114/114 [==============================] - 97s 853ms/step - loss: 0.5033 - accuracy: 0.8093 - val_loss: 0.4477 - val_accuracy: 0.8374
+Epoch 6/10
+114/114 [==============================] - 97s 852ms/step - loss: 0.3603 - accuracy: 0.8673 - val_loss: 0.3972 - val_accuracy: 0.8670
+Epoch 7/10
+114/114 [==============================] - 97s 854ms/step - loss: 0.3073 - accuracy: 0.8882 - val_loss: 0.3081 - val_accuracy: 0.8846
+Epoch 8/10
+114/114 [==============================] - 97s 852ms/step - loss: 0.4469 - accuracy: 0.8346 - val_loss: 0.3935 - val_accuracy: 0.8505
+Epoch 9/10
+114/114 [==============================] - 97s 849ms/step - loss: 0.3071 - accuracy: 0.8865 - val_loss: 0.3275 - val_accuracy: 0.8868
+Epoch 10/10
+114/114 [==============================] - 97s 851ms/step - loss: 0.2200 - accuracy: 0.9280 - val_loss: 0.2475 - val_accuracy: 0.9165
+```
+Note that after the training the neural network has an accuracy of 92.80%.
+
+### Optional Step
+
+If you wish to save the entire trained network, just run this step and then download the meuModeloTreinadoVgg16.h5 file generated. You can import the network later and use it without having to train it again.
+
+#### Debug Step 5
+
+We can plot the Training and Validation Accuracy and Training and Validation Loss graphs after the training. Just run the code below to see the graphs:
+
+```python
+acc = history.history['accuracy']
+val_acc = history.history['val_accuracy']
+
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+
+epochs_range = range(epochs)
+
+plt.figure(figsize=(8, 8))
+plt.subplot(1, 2, 1)
+plt.plot(epochs_range, acc, label='Training Accuracy')
+plt.plot(epochs_range, val_acc, label='Validation Accuracy')
+plt.legend(loc='lower right')
+plt.title('Training and Validation Accuracy')
+
+plt.subplot(1, 2, 2)
+plt.plot(epochs_range, loss, label='Training Loss')
+plt.plot(epochs_range, val_loss, label='Validation Loss')
+plt.legend(loc='upper right')
+plt.title('Training and Validation Loss')
+plt.show()
+```
+
+The output should be:
+
+![image](https://user-images.githubusercontent.com/19311371/121209366-2bf03200-c851-11eb-92f6-c90e9866255a.png)
