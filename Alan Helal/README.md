@@ -13,7 +13,7 @@ Next, it will be explained how to use the created neural network to solve the cl
 For more technical information regarding the project, please read the article Use of Convolutional Neural Networks for Image Classification available on this GitHub.
 If you wish to execute the pre-trained neural network, please [click here.](#pretrained-neural-network)
 
-<h2>Untrained Neural Network</h2>
+# Untrained Neural Network
 
 Since we are using the Google Colab plataform, there is no need to prepare an environment to execute the Neural Network. Simply [click here](https://colab.research.google.com/drive/13nPasXwH141iL9O5fqDcbtoYr5VVhpv7?hl=en) to open the Google Colab Notebok containing the untrained neural network.
 First thing we need to do is change the runtime type to use a GPU as hardware accelerator. To do so, select Runtime and then Select Runtime Type. Under Hardware Accelerator, choose GPU in the dropdown menu and then click in save. That's all the configuration we need to do.
@@ -451,5 +451,155 @@ plt.show()
 The output should be:
 
 ![image](https://user-images.githubusercontent.com/19311371/121209366-2bf03200-c851-11eb-92f6-c90e9866255a.png)
+
+#### Step 9
+
+Now we can use our test dataset to test the neural network. First we are going to use only the armadillo photos and see how many of them the neural network classify correctly.
+
+After runing the code below: 
+
+```python
+# Testando apenas com fotos de Tatu
+
+import matplotlib.image as mpimg
+tatus = pathlib.Path('/content/datasetFlorestaV3/teste/tatu')
+images = list(tatus.glob('*.JPG'))
+
+v = 0
+p = 0
+t = 0
+
+for i in images:
+    img = mpimg.imread(i)
+    img = keras.preprocessing.image.load_img(
+        i, target_size=(img_height, img_width)
+    )
+    img_array = keras.preprocessing.image.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0) # Create a batch
+
+    predictions = model.predict(img_array)
+    score = tf.nn.softmax(predictions[0])
+
+    if class_names[np.argmax(score)] == "porco":
+        p = p + 1
+    elif class_names[np.argmax(score)] == "tatu":
+        t = t + 1
+    else:
+        v = v + 1
+  
+print('Veado: {}'.format(v)) 
+print('Porco: {}'.format(p)) 
+print('Tatu: {}'.format(t)) 
+total = v + p + t
+acerto =(t/total)*100
+print('A rede acertou {:.2}% das imagens' .format(acerto))
+```
+
+You should see the following output:
+
+```bash
+Veado: 2
+Porco: 0
+Tatu: 246
+A rede acertou 99.19% das imagens
+```
+
+Then we can test for wild pig photos:
+
+```python
+# Testando apenas com fotos de Porcos
+porcos = pathlib.Path('/content/datasetFlorestaV3/teste/porco')
+images = list(porcos.glob('*.JPG'))
+
+v = 0
+p = 0
+t = 0
+
+for i in images:
+    img = mpimg.imread(i)
+    img = keras.preprocessing.image.load_img(
+        i, target_size=(img_height, img_width)
+    )
+    img_array = keras.preprocessing.image.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0) # Create a batch
+
+    predictions = model.predict(img_array)
+    score = tf.nn.softmax(predictions[0])
+
+    if class_names[np.argmax(score)] == "porco":
+        p = p + 1
+    elif class_names[np.argmax(score)] == "tatu":
+        t = t + 1
+    else:
+        c = v + 1
+
+
+print('Porco: {}'.format(p)) 
+print('Tatu: {}'.format(t)) 
+print('Veado: {}'.format(v)) 
+total = v + p + t
+acerto =(p/total)*100
+print('A rede acertou {}% das imagens' .format(acerto))
+```
+The output should be:
+
+```python
+Porco: 164
+Tatu: 24
+Veado: 0
+A rede acertou 87.23% das imagens
+```
+
+And the last one would be the deer:
+
+```python
+# Testando apenas com fotos de Veados
+veados = pathlib.Path('/content/datasetFlorestaV3/teste/veado')
+images = list(veados.glob('*.JPG'))
+
+
+v = 0
+p = 0
+t = 0
+
+for i in images:
+    img = mpimg.imread(i)
+    img = keras.preprocessing.image.load_img(
+        i, target_size=(img_height, img_width)
+    )
+    img_array = keras.preprocessing.image.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0) # Create a batch
+
+    predictions = model.predict(img_array)
+    score = tf.nn.softmax(predictions[0])
+
+    if class_names[np.argmax(score)] == "porco":
+        p = p + 1
+    elif class_names[np.argmax(score)] == "tatu":
+        t = t + 1
+    else:
+        v = v + 1 
+
+print('Porco: {}'.format(p)) 
+print('Tatu: {}'.format(t)) 
+print('Veado: {}'.format(v)) 
+total = v + p + t
+acerto =(v/total)*100
+print('A rede acertou {:.2}% das imagens' .format(acerto))
+```
+
+```bash
+Porco: 68
+Tatu: 4
+Veado: 82
+A rede acertou 53.24% das imagens
+```
+
+#### Optional Step 2
+
+If you wish to see how the neural network is classifying each image you can execute this step for each class. The output should be the image with the prediction and score given by the neural netowrk. An example of output is showed below:
+
+<img width="359" alt="Schermata 2021-06-08 alle 12 19 59" src="https://user-images.githubusercontent.com/19311371/121212589-e2551680-c853-11eb-85ef-c4deaea30961.png">
+
 
 # Pretrained Neural Network
