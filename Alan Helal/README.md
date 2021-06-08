@@ -605,4 +605,238 @@ If you wish to see how the neural network is classifying each image you can exec
 
 # Trained Neural Network
 
-Why train something already trained? For your convenience you can test the neural network without having to download almost 4 GB of data and spend time training it. Just [click here](https://colab.research.google.com/drive/1AZE2scb09Eixsfgydl-lnvbfuaTLb3uU?hl=en#scrollTo=pz30YZNqu4op) to open the Trained Neural Network.
+Why train something already trained? For your convenience you can test the neural network without having to download almost 4 GB of data and spend time training it. Just [click here](https://colab.research.google.com/drive/1AZE2scb09Eixsfgydl-lnvbfuaTLb3uU?hl=en#scrollTo=pz30YZNqu4op) to open the Trained Neural Network. It has only 5 steps.
+
+First thing we need to do is change the runtime type to use a GPU as hardware accelerator. To do so, select Runtime and then Select Runtime Type. Under Hardware Accelerator, choose GPU in the dropdown menu and then click in save. That's all the configuration we need to do.
+
+Note: to execute every step just click on the play button located at the top left corner of each box that contain code.
+
+#### Step 1
+We need to import all the libraries used to train and validate the neural network (numpy, tensorflow and keras). Also, we need to import the libraries used to manipulate the files and plot graphs (matlibplot, os and PIL). After executing Step 1 you should get an output like this:
+
+```json
+[name: "/device:CPU:0"
+device_type: "CPU"
+memory_limit: 268435456
+locality {
+}
+incarnation: 11233807447978002051
+, name: "/device:GPU:0"
+device_type: "GPU"
+memory_limit: 11344216064
+locality {
+  bus_id: 1
+  links {
+  }
+}
+incarnation: 8972007624555681685
+physical_device_desc: "device: 0, name: Tesla K80, pci bus id: 0000:00:04.0, compute capability: 3.7"
+]
+```
+If you are using the correct runtime type, you shoudl see a GPU listed as a device_type.
+
+The code used to do all the imports is:
+
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+import PIL
+import tensorflow as tf
+
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras.models import Sequential
+tf.config.list_physical_devices('GPU')
+from tensorflow.python.client import device_lib
+
+print(device_lib.list_local_devices()) #imprimindo os tipos de dispositivos
+```
+
+#### Step 2
+We need to download the dataset containing the images for training, validation and testing. After downloading, we decompress the file and delete every hidden file that might be created during the compressing. This step might take a while depending on yout internet speed. After its done you should see the number 615 as an output. It indicates the number of images in our dataset.
+
+The code used is:
+
+```python
+import pathlib
+
+!gdown --id 1j64rDwoltrcbYiVaAEI-AZTaRjISP2tv #Efetuando o download do dataset direto do meu Google Drive
+!tar -xzvf /content/datasetFlorestaV3.tgz #Descompactando o dataset
+data_dir = pathlib.Path('/content/datasetFlorestaV3/treinamento') #Definindo o diretório de treinamento
+
+#Os comandos abaixo servem para remover todos os arquivos ocultos/temporários das pastas do dataset
+!rm -rf /content/datasetFlorestaV3/treinamento/porco/._*
+!rm -rf /content/datasetFlorestaV3/treinamento/tatu/._*
+!rm -rf /content/datasetFlorestaV3/treinamento/veado/._*
+!rm -rf /content/datasetFlorestaV3/teste/porco/._*
+!rm -rf /content/datasetFlorestaV3/teste/tatu/._*
+!rm -rf /content/datasetFlorestaV3/teste/veado/._*
+
+image_count = len(list(data_dir.glob('*/*.JPG'))) #Contando quantas imagens possuem o dataset de treinamento
+print(image_count) #verificar se o número de imagens importadas coincide com o número de imagens do dataset de treinamento
+```
+
+#### Step 3
+
+We need to download the Trained Neural Network. The code below will do it for you:
+
+```python
+!gdown --id 1Nr29d6b8Picr_LqqYb3YN416E50fShzq
+```
+
+#### Step 4
+
+We need to create the model from the file we just downloaded. Again, just execute the code below and after a few seconds you will have the entire network trained at your service.
+
+```python
+from keras.models import load_model
+model = load_model('/content/CNNTreinadaVGG16.h5')
+```
+
+#### Step 9
+
+Now we can use our test dataset to test the neural network. First we are going to use only the armadillo photos and see how many of them the neural network classify correctly.
+
+After runing the code below: 
+
+```python
+# Testando apenas com fotos de Tatu
+
+import matplotlib.image as mpimg
+tatus = pathlib.Path('/content/datasetFlorestaV3/teste/tatu')
+images = list(tatus.glob('*.JPG'))
+
+v = 0
+p = 0
+t = 0
+
+for i in images:
+    img = mpimg.imread(i)
+    img = keras.preprocessing.image.load_img(
+        i, target_size=(img_height, img_width)
+    )
+    img_array = keras.preprocessing.image.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0) # Create a batch
+
+    predictions = model.predict(img_array)
+    score = tf.nn.softmax(predictions[0])
+
+    if class_names[np.argmax(score)] == "porco":
+        p = p + 1
+    elif class_names[np.argmax(score)] == "tatu":
+        t = t + 1
+    else:
+        v = v + 1
+  
+print('Veado: {}'.format(v)) 
+print('Porco: {}'.format(p)) 
+print('Tatu: {}'.format(t)) 
+total = v + p + t
+acerto =(t/total)*100
+print('A rede acertou {:.2}% das imagens' .format(acerto))
+```
+
+You should see the following output:
+
+```bash
+Veado: 0
+Porco: 7
+Tatu: 241
+A rede acertou 97.18% das imagens
+```
+
+Then we can test for wild pig photos:
+
+```python
+# Testando apenas com fotos de Porcos
+porcos = pathlib.Path('/content/datasetFlorestaV3/teste/porco')
+images = list(porcos.glob('*.JPG'))
+
+v = 0
+p = 0
+t = 0
+
+for i in images:
+    img = mpimg.imread(i)
+    img = keras.preprocessing.image.load_img(
+        i, target_size=(img_height, img_width)
+    )
+    img_array = keras.preprocessing.image.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0) # Create a batch
+
+    predictions = model.predict(img_array)
+    score = tf.nn.softmax(predictions[0])
+
+    if class_names[np.argmax(score)] == "porco":
+        p = p + 1
+    elif class_names[np.argmax(score)] == "tatu":
+        t = t + 1
+    else:
+        c = v + 1
+
+
+print('Porco: {}'.format(p)) 
+print('Tatu: {}'.format(t)) 
+print('Veado: {}'.format(v)) 
+total = v + p + t
+acerto =(p/total)*100
+print('A rede acertou {}% das imagens' .format(acerto))
+```
+The output should be:
+
+```python
+Porco: 184
+Tatu: 0
+Veado: 0
+A rede acertou 100.00% das imagens
+```
+
+And the last one would be the deer:
+
+```python
+# Testando apenas com fotos de Veados
+veados = pathlib.Path('/content/datasetFlorestaV3/teste/veado')
+images = list(veados.glob('*.JPG'))
+
+
+v = 0
+p = 0
+t = 0
+
+for i in images:
+    img = mpimg.imread(i)
+    img = keras.preprocessing.image.load_img(
+        i, target_size=(img_height, img_width)
+    )
+    img_array = keras.preprocessing.image.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0) # Create a batch
+
+    predictions = model.predict(img_array)
+    score = tf.nn.softmax(predictions[0])
+
+    if class_names[np.argmax(score)] == "porco":
+        p = p + 1
+    elif class_names[np.argmax(score)] == "tatu":
+        t = t + 1
+    else:
+        v = v + 1 
+
+print('Porco: {}'.format(p)) 
+print('Tatu: {}'.format(t)) 
+print('Veado: {}'.format(v)) 
+total = v + p + t
+acerto =(v/total)*100
+print('A rede acertou {:.2}% das imagens' .format(acerto))
+```
+
+```bash
+Porco: 14
+Tatu: 14
+Veado: 126
+A rede acertou 81.82% das imagens
+```
+
+#### Optional Step 
+
+If you wish to see how the neural network is classifying each image you can execute this step for each class. The output should be the image with the prediction and score given by the neural netowrk.
