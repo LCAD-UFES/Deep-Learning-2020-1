@@ -1,5 +1,6 @@
 
 ## [Estimativa de Profundidade de Alta Qualidade utilizando Camera Monocular via "Adaptive Bins"](https://arxiv.org/abs/2011.14141)
+* por Aureziano Faria de Oliveira e Thiago Goncalves Cavalcante
 
 ## Modelos Pré-Treinados
 Os modelos pré-treinados com "NYU depth v2" e "kitti" estão disponíveis [aqui](https://1drv.ms/u/s!AuWRnPR26byUmfRxBQ327hc8eXse2Q?e=AQuYZw)
