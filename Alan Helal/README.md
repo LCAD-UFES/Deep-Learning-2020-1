@@ -10,7 +10,7 @@ Next, it will be explained how to use the created neural network to solve the cl
 * The untrained neural network. It will be necessary to download the entire dataset (3.81 GB) and train the network before using it.
 * The neural network trained and ready to receive the photos you want to classify.
 
-For more technical information regarding the project, please read the article Use of Convolutional Neural Networks for Image Classification available on this GitHub.
+For more technical information regarding the project, please read the article Use of Convolutional Neural Networks for Wild Animal Classification available on this GitHub.
 If you wish to execute the pre-trained neural network, please [click here.](#trained-neural-network)
 
 # Untrained Neural Network
