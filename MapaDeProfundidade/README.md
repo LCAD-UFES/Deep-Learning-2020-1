@@ -1,5 +1,5 @@
 
-## [Estimativa de Profundidade de Alta Qualidade utilizando Camera Monocular via "Adaptive Bins"](https://arxiv.org/abs/2011.14141)
+## [Estimativa de Profundidade de Alta Qualidade utilizando Camera Monocular via "Adaptive Bins"](https://github.com/LCAD-UFES/Deep-Learning-2020-1/blob/main/MapaDeProfundidade/relatorio/DepthMapUsingAdabins.pdf)
 * por Aureziano Faria de Oliveira e Thiago Goncalves Cavalcante
 
 ## Modelos Pré-Treinados
