@@ -37,6 +37,11 @@ python infer_video.py --model kitti --input test_video.mp4
 ```
 Obs.: test_video.mp4 é algum vídeo de sua escolha.
 
+#Videos
+* [Teste na IARA](https://drive.google.com/file/d/1Okb38k_hgC2Um9GGgPdQYeZEGTztFQrP/view?usp=sharing)
+* [Teste no ART](https://drive.google.com/file/d/1l__YR7KJaUGiOFkxkbPSHsNXn7Q4iSlk/view?usp=sharing)
+* [reconstrução 3D da cena](https://drive.google.com/file/d/1oTzFkOW8UthiehopQ3-HCS9LUFdFTdek/view?usp=sharing)
+
 # Nossas contribuições
 * View3dPointCloud.py: Script python para visualizar a reconstrução 3D a partir das imagens do ART (calibrado para cameras intelbras)
 * DeepMapper.ipynb: Script notebook para executar diretamente do Google Colab
