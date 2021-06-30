@@ -4,7 +4,7 @@
 [ASR](https://drive.google.com/drive/folders/1WyLlbj2mVOeR42jzLy3JbZfe7gZcuf2O?usp=sharing)
 
 
-# Here are the steps to train your own ASR using End-to-end Automatic Speech Recognition Systems - PyTorch Implementation
+# Here are the steps to train your own ASR using End-to-end Automatic Speech Recognition Systems - PyTorch Implementation and the python packages required on this work are listed on the file requirements.txt
 
 This is an open source project (formerly named **Listen, Attend and Spell - PyTorch Implementation**) for end-to-end ASR by [Tzu-Wei Sung](https://github.com/WindQAQ) and me.
 Implementation was mostly done with Pytorch, the well known deep learning toolkit.
