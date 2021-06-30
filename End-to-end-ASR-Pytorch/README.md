@@ -1,6 +1,6 @@
-#to check the final results of my work just check the two CSV files, named decode_example_portuguese_test_output.csv and decode_example_test_output.csv on the folder result
+## To check the final results of my work just check the two CSV files, named decode_example_portuguese_test_output.csv and decode_example_test_output.csv on the folder result
 
-#to download the ASR done on this work just download the folder named ckpt on the link below
+## To download the ASR done on this work just download the folder named ckpt on the follow link
 [neura network](https://drive.google.com/drive/folders/1WyLlbj2mVOeR42jzLy3JbZfe7gZcuf2O?usp=sharing)
 
 
@@ -22,6 +22,7 @@ Feel free to use/modify them, any bug report or improvement suggestion will be a
 - Feature Extraction
     - On-the-fly feature extraction using torchaudio as backend
     - Character/subword<sup>[2](#Reference)</sup>/word encoding of text
+
 
 - Training End-to-end ASR 
     - Seq2seq ASR with different types of encoder/attention<sup>[3](#Reference)</sup>
