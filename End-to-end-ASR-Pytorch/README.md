@@ -1,7 +1,7 @@
 ## To check the final results of my work just check the two CSV files, named decode_example_portuguese_test_output.csv and decode_example_test_output.csv on the folder result
 
-## To download the ASR done on this work just download the folder named ckpt on the follow link
-[neura network](https://drive.google.com/drive/folders/1WyLlbj2mVOeR42jzLy3JbZfe7gZcuf2O?usp=sharing)
+## To download the ASR done on this work just download the folder named ckpt on the link below
+[ASR](https://drive.google.com/drive/folders/1WyLlbj2mVOeR42jzLy3JbZfe7gZcuf2O?usp=sharing)
 
 
 # Here are the steps to train your own ASR using End-to-end Automatic Speech Recognition Systems - PyTorch Implementation
