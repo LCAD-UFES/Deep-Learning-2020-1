@@ -1,4 +1,10 @@
-# End-to-end Automatic Speech Recognition Systems - PyTorch Implementation
+#to check the final results of my work just check the two CSV files, named decode_example_portuguese_test_output.csv and decode_example_test_output.csv on the folder result
+
+#to download the ASR done on this work just download the folder named ckpt on the link below
+[neura network](https://drive.google.com/drive/folders/1WyLlbj2mVOeR42jzLy3JbZfe7gZcuf2O?usp=sharing)
+
+
+# Here are the steps to train your own ASR using End-to-end Automatic Speech Recognition Systems - PyTorch Implementation
 
 This is an open source project (formerly named **Listen, Attend and Spell - PyTorch Implementation**) for end-to-end ASR by [Tzu-Wei Sung](https://github.com/WindQAQ) and me.
 Implementation was mostly done with Pytorch, the well known deep learning toolkit.
@@ -76,6 +82,8 @@ python3 main.py -h
 python3 main.py --config config/libri/asr_example.yaml
 # Open TensorBoard to see log
 tensorboard --logdir log/
+# If you do not have tensorboard on your machine see link below
+https://stackoverflow.com/questions/33634008/how-do-i-install-tensorflows-tensorboard
 # Train an external language model
 python3 main.py --config config/libri/lm_example.yaml --lm
 ```
@@ -121,61 +129,6 @@ Most of the options work similar to training phase except the followings:
 | test    | *Must be enabled*|
 | config  | Path to the decoding config file.|
 | outdir  | Path to store decode result.|
-| njobs   | Number of threads used for decoding, very important in terms of efficiency. Large value equals fast decoding yet RAM/GPU RAM expensive.    |
+| njobs   | Number of threads used for decoding, very important in terms of efficiency. Large value equals fast decoding yet RAM/GPU RAM expensive.
 
 
-## Troubleshooting 
-
-- Loss becomes `nan` right after training begins
-    
-    For CTC, `len(pred)>len(label)` is necessary.
-    Also consider set `zero_infinity=True` for `torch.nn.CTCLoss`
-
-
-
-
-
-## ToDo
-
-- Provide examples
-- Pure CTC training / CTC beam decode bug (out-of-candidate)
-- Greedy decoding
-- Customized dataset
-- Util. scripts
-- Finish CLM migration and reference
-- Store preprocessed dataset on RAM
-
-## Acknowledgements 
-- Parts of the implementation refer to [ESPnet](https://github.com/espnet/espnet), a great end-to-end speech processing toolkit by Watanabe *et al*.
-- Special thanks to [William Chan](http://williamchan.ca/), the first author of LAS, for answering my questions during implementation.
-- Thanks [xiaoming](https://github.com/lezasantaizi), [Odie Ko](https://github.com/odie2630463), [b-etienne](https://github.com/b-etienne), [Jinserk Baik](https://github.com/jinserk) and [Zhong-Yi Li](https://github.com/Chung-I) for identifying several issues in our implementation. 
-
-## Reference
-
-1. [Listen, Attend and Spell](https://arxiv.org/abs/1508.01211v2), W Chan *et al.*
-2. [Neural Machine Translation of Rare Words with Subword Units](http://www.aclweb.org/anthology/P16-1162), R Sennrich *et al.*
-3. [Attention-Based Models for Speech Recognition](https://arxiv.org/abs/1506.07503), J Chorowski *et al*.
-4. [Connectionist Temporal Classification: Labelling Unsegmented Sequence Data with Recurrent Neural Networks](https://www.cs.toronto.edu/~graves/icml_2006.pdf), A Graves *et al*.
-5. [Joint CTC-Attention based End-to-End Speech Recognition using Multi-task Learning](https://arxiv.org/abs/1609.06773), S Kim *et al.* 
-6.  [Advances in Joint CTC-Attention based End-to-End Speech Recognition with a Deep CNN Encoder and RNN-LM](https://arxiv.org/abs/1706.02737), T Hori *et al.* 
-
-## Citation
-
-```
-@inproceedings{liu2019adversarial,
-  title={Adversarial Training of End-to-end Speech Recognition Using a Criticizing Language Model},
-  author={Liu, Alexander and Lee, Hung-yi and Lee, Lin-shan},
-  booktitle={Acoustics, Speech and Signal Processing (ICASSP)},
-  year={2019},
-  organization={IEEE}
-}
-
-@misc{alex2019sequencetosequence,
-    title={Sequence-to-sequence Automatic Speech Recognition with Word Embedding Regularization and Fused Decoding},
-    author={Alexander H. Liu and Tzu-Wei Sung and Shun-Po Chuang and Hung-yi Lee and Lin-shan Lee},
-    year={2019},
-    eprint={1910.12740},
-    archivePrefix={arXiv},
-    primaryClass={cs.CL}
-}
-```
