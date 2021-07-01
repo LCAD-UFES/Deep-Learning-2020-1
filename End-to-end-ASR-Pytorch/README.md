@@ -3,6 +3,7 @@
 ## To download the ASR done on this work just download the folder named ckpt on the link below
 [ASR](https://drive.google.com/drive/folders/1WyLlbj2mVOeR42jzLy3JbZfe7gZcuf2O?usp=sharing)
 
+## To see my report to the discipline of Deep Learning 2021/1 just check the file  Report Of The Work Done On Discipline of Discipline of Deep Learning By Marcelo Pedro.pdf
 
 # Here are the steps to train your own ASR using End-to-end Automatic Speech Recognition Systems - PyTorch Implementation and the python packages required on this work are listed on the file requirements.txt
 
