@@ -6,29 +6,29 @@
 #### Ubuntu 18.04 LTS (64 bit) Instalation Guide
 
 ##### Dependencies
-
-sudo apt-get install build-essential '\
-git '\
-wget '\
-swig '\
-libgtk2.0-dev  '\
-libgtkmm-2.4-dev  \
-libcurl4-openssl-dev  \
-pkg-config  \
+```
+sudo apt-get install build-essential \
+git \
+wget \
+swig \
+libgtk2.0-dev \
+libgtkmm-2.4-dev \
+libcurl4-openssl-dev \
+pkg-config \
 lighttpd \
-libsqlite3-dev  \
+libsqlite3-dev \
 sqlite3 \
 unzip \
-python-dev  \
-python-numpy  \
-libtbb2  \
-libtbb-dev  \
-libjpeg-dev  \
+python-dev \
+python-numpy \
+libtbb2 \
+libtbb-dev \
+libjpeg-dev \
 libpng-dev \
 libtiff-dev \
 libdc1394-22-dev \
 libncurses5-dev \
-libprotobuf-dev  \
+libprotobuf-dev \
 libleveldb-dev \
 libsnappy-dev \
 libhdf5-serial-dev \
@@ -46,11 +46,11 @@ yasm  \
 libx264-dev \
 libbluetooth-dev \
 libssl-dev \
-libstxxl-dev  \
+libstxxl-dev \
 libcurl3 \
-php7.2-sqlite3  \
-php7.2-cgi  \
-php7.2-zip  \
+php7.2-sqlite3 \
+php7.2-cgi \
+php7.2-zip \
 php7.2-curl
 ```
 
