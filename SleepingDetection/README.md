@@ -7,10 +7,10 @@
 
 ##### Dependencies
 
-sudo apt-get install build-essential \
-git  \
-wget  \
-swig  \
+sudo apt-get install build-essential \\
+git \\
+wget \\
+swig \
 libgtk2.0-dev  \
 libgtkmm-2.4-dev  \
 libcurl4-openssl-dev  \
