@@ -148,7 +148,7 @@ cd ~/libraries
 ##### Building Project
 
 ```sh
-cd sleeping detection
+cd SleepingDetection
 mkdir build && cd build
 cmake ..
 make
